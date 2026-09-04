@@ -1,9 +1,5 @@
 import pandas as pd
 import numpy as np
-<<<<<<< HEAD
-=======
-import mysql.connector as mc
->>>>>>> daae38af355050a5a94ae8c98add125f636ef7d2
 import sqlite3
 import streamlit as st
 import matplotlib.pyplot as plt
@@ -11,21 +7,9 @@ from sklearn.linear_model import LinearRegression
 
 @st.cache_resource
 def get_connection():
-<<<<<<< HEAD
     return sqlite3.connect("telecoms.db", check_same_thread=False)
 mydb = get_connection()
 mycursor = mydb.cursor()
-=======
-    return mc.connect(
-    host="localhost",
-    user="root",
-    password="Holocust",
-)
-mydb = get_connection()
-mycursor = mydb.cursor()
-mycursor.execute("CREATE DATABASE IF NOT EXISTS Telecoms")
-mycursor.execute("USE Telecoms")
-
 
 mycursor.execute("DROP TABLE IF EXISTS financial_data")
 print("Old table wiped clean")
@@ -43,11 +27,7 @@ CREATE TABLE IF NOT EXISTS financial_data(
 mycursor.execute(sql_create_table)
 print("Table created successfully")
 
-<<<<<<< HEAD
 mycursor.execute("PRAGMA table_info(financial_data)")
-=======
-mycursor.execute("DESCRIBE financial_data")
->>>>>>> daae38af355050a5a94ae8c98add125f636ef7d2
 for row in mycursor.fetchall():
     print(row)
 
@@ -55,11 +35,7 @@ for row in mycursor.fetchall():
 insert_query = """
 INSERT INTO financial_data
 (company, year, revenue, ebitda, net_profit, subscribers)
-<<<<<<< HEAD
 VALUES (?, ?, ?, ?, ?, ?)
-=======
-VALUES (%s, %s, %s, %s, %s, %s)
->>>>>>> daae38af355050a5a94ae8c98add125f636ef7d2
 """
 excel_file = "SA_Telecoms_Dataset_2015_2025.xlsx"
 
