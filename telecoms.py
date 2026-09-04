@@ -81,6 +81,10 @@ for index, row in df_filtered.iterrows():
     mydb.commit()
     print(f"{len(df_filtered)}")
 
+st.write("DEBURG: Raw financial_data table")
+raw_check = pd.real_sql_query("SELECT * FROM financial_data WHERE company_name = 'Cell C LIMIT 10", mydb)
+st.datframe(raw_check)
+
 sql_calculate_trends = """
 WITH financial_trends AS (
     SELECT 
