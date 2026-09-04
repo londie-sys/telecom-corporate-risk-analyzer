@@ -2,6 +2,6 @@ streamlit
 pandas
 metplotlib
 numpy
-sckit-learn
+scikit-learn
 pymysql
 openpyxl
