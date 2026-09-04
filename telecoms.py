@@ -143,6 +143,8 @@ FROM risk_scoring;
 
 """   
 df_risk_report = pd.read_sql_query(sql_calculate_trends, mydb)
+st.write("DEBUG: Raw risk report data")
+st.dataframe(df_risk_report)
 
 print("\n--- ALL CALCULATED RISK SCORES---")
 print(df_risk_report.to_string(index=False))
