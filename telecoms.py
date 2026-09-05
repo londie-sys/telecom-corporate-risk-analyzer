@@ -223,7 +223,7 @@ col2.metric("EBITDA Margin", f"{latest_record['ebitda_margin']:.2f}%")
 col3.metric("Net Profit Margin", f"{latest_record['net_profit_margin']:.2f}%")
 
 risk_color = "red" if "high" in latest_record['risk_tier'] else ("orange" if "medium" in latest_record['risk_tier'] else "green")
-col4.markdown(f"{risk_color}; {latest_record['risk_tier']}", unsafe_allow_html=True)
+col4.markdown(f"<span style='color:{risk_color}; font-weight:bold'>{latest_record['risk_tier']}</span>", unsafe_allow_html=True)
 st.markdown("---")
 view_col1, view_col2 = st.columns([1, 1])
 
