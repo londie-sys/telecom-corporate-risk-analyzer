@@ -1,9 +1,5 @@
 import pandas as pd
 import numpy as np
-<<<<<<< HEAD
-=======
-import mysql.connector as mc
->>>>>>> daae38af355050a5a94ae8c98add125f636ef7d2
 import sqlite3
 import streamlit as st
 import matplotlib.pyplot as plt
@@ -11,21 +7,9 @@ from sklearn.linear_model import LinearRegression
 
 @st.cache_resource
 def get_connection():
-<<<<<<< HEAD
     return sqlite3.connect("telecoms.db", check_same_thread=False)
 mydb = get_connection()
 mycursor = mydb.cursor()
-=======
-    return mc.connect(
-    host="localhost",
-    user="root",
-    password="Holocust",
-)
-mydb = get_connection()
-mycursor = mydb.cursor()
-mycursor.execute("CREATE DATABASE IF NOT EXISTS Telecoms")
-mycursor.execute("USE Telecoms")
-
 
 mycursor.execute("DROP TABLE IF EXISTS financial_data")
 print("Old table wiped clean")
@@ -43,11 +27,7 @@ CREATE TABLE IF NOT EXISTS financial_data(
 mycursor.execute(sql_create_table)
 print("Table created successfully")
 
-<<<<<<< HEAD
 mycursor.execute("PRAGMA table_info(financial_data)")
-=======
-mycursor.execute("DESCRIBE financial_data")
->>>>>>> daae38af355050a5a94ae8c98add125f636ef7d2
 for row in mycursor.fetchall():
     print(row)
 
@@ -55,11 +35,7 @@ for row in mycursor.fetchall():
 insert_query = """
 INSERT INTO financial_data
 (company, year, revenue, ebitda, net_profit, subscribers)
-<<<<<<< HEAD
 VALUES (?, ?, ?, ?, ?, ?)
-=======
-VALUES (%s, %s, %s, %s, %s, %s)
->>>>>>> daae38af355050a5a94ae8c98add125f636ef7d2
 """
 excel_file = "SA_Telecoms_Dataset_2015_2025.xlsx"
 
@@ -103,7 +79,7 @@ for index, row in df_filtered.iterrows():
     )
     mycursor.execute(insert_query, value)
     mydb.commit()
-    print(f"{len(df_filtered)}")
+    print(f"{len(df_filtered)}") 
 
 sql_calculate_trends = """
 WITH financial_trends AS (
@@ -114,11 +90,11 @@ WITH financial_trends AS (
     ebitda,
     net_profit,
     subscribers,
-    (revenue / NULLIF(subscribers, 0)) AS arpu,
+    (CAST(revenue AS REAL) / NULLIF(subscribers, 0)) AS arpu,
 
     LAG(revenue) OVER(PARTITION BY company ORDER BY Year ) AS prev_revenue,
     LAG(ebitda) OVER (PARTITION BY company ORDER BY Year ) AS prev_ebitda,
-    LAG(revenue / NULLIF(subscribers, 0)) OVER(PARTITION BY company ORDER BY Year) AS prev_arpu
+    LAG(CAST(revenue AS REAL) / NULLIF(subscribers, 0)) OVER(PARTITION BY company ORDER BY Year) AS prev_arpu
     FROM financial_data
 ),
 calculated_metrics AS (
@@ -126,12 +102,12 @@ SELECT
     company_name,
     financial_year,
 
-    ((revenue - prev_revenue) / NULLIF(prev_revenue, 0)) * 100 AS revenue_growth_yoy,
-    (ebitda / NULLIF(revenue, 0)) AS ebitda_margin,
-    ((ebitda / NULLIF(revenue, 0 )) - (prev_ebitda / NULLIF(prev_revenue, 0))) AS ebitda_margin_change,
+    ((CAST(revenue AS REAL) - prev_revenue) / NULLIF(prev_revenue, 0)) * 100 AS revenue_growth_yoy,
+    (CAST(ebitda AS REAL) / NULLIF(revenue, 0)) * 100 AS ebitda_margin,
+    ((CAST(ebitda AS REAL) / NULLIF(revenue, 0 )) - (CAST(prev_ebitda AS REAL) / NULLIF(prev_revenue, 0))) AS ebitda_margin_change,
 
-    (net_profit / NULLIF(revenue, 0)) * 100 AS net_profit_margin,
-    (arpu - prev_arpu) as arpu_change_yoy
+    (CAST(net_profit AS REAL) / NULLIF(revenue, 0)) * 100 AS net_profit_margin,
+    (arpu - prev_arpu) AS arpu_change_yoy
 FROM financial_trends
 ),
 risk_scoring AS (
