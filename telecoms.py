@@ -81,10 +81,6 @@ for index, row in df_filtered.iterrows():
     mydb.commit()
     print(f"{len(df_filtered)}")
 
-st.write("DEBURG: Raw financial_data table")
-raw_check = pd.read_sql_query("SELECT * FROM financial_data WHERE company = 'Cell C LIMIT 10", mydb)
-st.datframe(raw_check)
-
 sql_calculate_trends = """
 WITH financial_trends AS (
     SELECT 
@@ -147,8 +143,6 @@ FROM risk_scoring;
 
 """   
 df_risk_report = pd.read_sql_query(sql_calculate_trends, mydb)
-st.write("DEBUG: Raw risk report data")
-st.dataframe(df_risk_report)
 
 print("\n--- ALL CALCULATED RISK SCORES---")
 print(df_risk_report.to_string(index=False))
