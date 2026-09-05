@@ -95,7 +95,6 @@ WITH financial_trends AS (
     LAG(revenue) OVER(PARTITION BY company ORDER BY Year ) AS prev_revenue,
     LAG(ebitda) OVER (PARTITION BY company ORDER BY Year ) AS prev_ebitda,
     LAG(CAST(revenue AS REAL) / NULLIF(subscribers, 0)) OVER(PARTITION BY company ORDER BY Year) AS prev_arpu
-    LAG(CAST(revenue AS REAL) / NULLIF(subscribers, 0)) OVER(PARTITION BY company ORDER BY Year) AS prev_arpu
     FROM financial_data
 ),
 calculated_metrics AS (
