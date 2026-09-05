@@ -108,8 +108,6 @@ SELECT
 
     (CAST(net_profit AS REAL) / NULLIF(revenue, 0)) * 100 AS net_profit_margin,
     (arpu - prev_arpu) AS arpu_change_yoy
-    (CAST(net_profit AS REAL) / NULLIF(revenue, 0)) * 100 AS net_profit_margin,
-    (arpu - prev_arpu) AS arpu_change_yoy
 FROM financial_trends
 ),
 risk_scoring AS (
@@ -142,7 +140,6 @@ SELECT
       ELSE 'Low Risk'
    END AS risk_tier
 FROM risk_scoring;         
-
 """   
 df_risk_report = pd.read_sql_query(sql_calculate_trends, mydb)
 
