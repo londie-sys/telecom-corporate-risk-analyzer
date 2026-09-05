@@ -94,11 +94,11 @@ WITH financial_trends AS (
     ebitda,
     net_profit,
     subscribers,
-    (revenue / NULLIF(subscribers, 0)) AS arpu,
+    (CAST(revenue AS REAL / NULLIF(subscribers, 0)) AS arpu,
 
     LAG(revenue) OVER(PARTITION BY company ORDER BY Year ) AS prev_revenue,
     LAG(ebitda) OVER (PARTITION BY company ORDER BY Year ) AS prev_ebitda,
-    LAG(revenue / NULLIF(subscribers, 0)) OVER(PARTITION BY company ORDER BY Year) AS prev_arpu
+    LAG(CAST(revenue AS REAL) / NULLIF(subscribers, 0)) OVER(PARTITION BY company ORDER BY Year) AS prev_arpu
     FROM financial_data
 ),
 calculated_metrics AS (
@@ -106,12 +106,12 @@ SELECT
     company_name,
     financial_year,
 
-    ((revenue - prev_revenue) / NULLIF(prev_revenue, 0)) * 100 AS revenue_growth_yoy,
-    (ebitda / NULLIF(revenue, 0)) AS ebitda_margin,
-    ((ebitda / NULLIF(revenue, 0 )) - (prev_ebitda / NULLIF(prev_revenue, 0))) AS ebitda_margin_change,
+    ((CAST(revenue AS REAL) - prev_revenue) / NULLIF(prev_revenue, 0)) * 100 AS revenue_growth_yoy,
+    (CAST(ebitda AS REAL / NULLIF(revenue, 0)) * 100 AS ebitda_margin,
+    ((CAST(ebitda AS REAL) / NULLIF(revenue, 0 )) - (CAST(prev_ebitda AS REAL / NULLIF(prev_revenue, 0))) AS ebitda_margin_change,
 
-    (net_profit / NULLIF(revenue, 0)) * 100 AS net_profit_margin,
-    (arpu - prev_arpu) as arpu_change_yoy
+    (CAST(net_profit AS REAL) / NULLIF(revenue, 0)) * 100 AS net_profit_margin,
+    (arpu - prev_arpu) AS arpu_change_yoy
 FROM financial_trends
 ),
 risk_scoring AS (
