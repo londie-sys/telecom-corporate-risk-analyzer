@@ -11,7 +11,7 @@ This project implements an automated quantitative credit-scoring egine using a m
 
 DATA INGESTION: Cleaned historical financial statements from telecom operators, including Telkom and Cell C, were structured and ingested into a relational database.
 
-SIGNAL ENGINEERING: SQL window funtions were used to ttrack year-over-tear trends and operational indicators, focusing on identykfying top-line contradictions, evaluating operational efficiency changes, monitioring raw profitability or capital losses, and evaluating structural pricing power alongside high-value subscribers churn.
+SIGNAL ENGINEERING: SQL window funtions were used to track year-over-tear trends and operational indicators, focusing on identifying top-line contradictions, evaluating operational efficiency changes, monitioring raw profitability or capital losses, and evaluating structural pricing power alongside high-value subscribers churn.
 
 RISK SCORING MATRIX: A deterministic condtional logic matrix automatically flags deteriorating metrics, calculating raw risk point to tier operations into low risk, medium risk, or hihg risk categories.
 
